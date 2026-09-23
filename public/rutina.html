@@ -93,8 +93,19 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             loadState();
-            document.getElementById('statCurrentStreak').innerHTML = `${state.currentStreak} <span class="text-2xl">🔥</span>`;
-            document.getElementById('statLongestStreak').innerHTML = `${state.longestStreak} <span class="text-2xl">🏅</span>`;
+            const currentStreakEl = document.getElementById('statCurrentStreak');
+            currentStreakEl.textContent = state.currentStreak + ' ';
+            const currentStreakEmoji = document.createElement('span');
+            currentStreakEmoji.className = 'text-2xl';
+            currentStreakEmoji.textContent = '🔥';
+            currentStreakEl.appendChild(currentStreakEmoji);
+
+            const longestStreakEl = document.getElementById('statLongestStreak');
+            longestStreakEl.textContent = state.longestStreak + ' ';
+            const longestStreakEmoji = document.createElement('span');
+            longestStreakEmoji.className = 'text-2xl';
+            longestStreakEmoji.textContent = '🏅';
+            longestStreakEl.appendChild(longestStreakEmoji);
             
             const history = getWeeklyHistory(); // array of 7 items
             const chartContainer = document.getElementById('chartContainer');
