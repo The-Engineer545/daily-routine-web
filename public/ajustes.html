@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organiza tus hábitos diarios, mantén tu racha y evoluciona tu mascota virtual.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <title>Daily Routine - Ajustes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { blue: '#1CB0F6', dark: '#1899D6', light: '#84D8FF' } } }, fontFamily: { sans: ['Lexend', 'sans-serif'] } }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Lexend', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    
+    <div class="max-w-6xl mx-auto md:px-6 md:py-8 md:grid md:grid-cols-12 gap-8 h-full">
+        <!-- Sidebar Navigation (Hidden on mobile) -->
+        <aside class="hidden md:flex flex-col col-span-2 sticky top-8 h-fit pt-2">
+            <h1 class="text-2xl font-black text-brand-blue mb-8 leading-tight">Daily<br>Routine</h1>
+            <nav class="flex flex-col gap-2">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                    Inicio
+                </a>
+                <a href="rutina.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                    Estadísticas
+                </a>
+                <a href="ajustes.html" class="flex items-center gap-3 px-4 py-3 bg-brand-blue/10 text-brand-blue font-bold rounded-2xl border-2 border-brand-blue text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+                    Ajustes
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-span-12 md:col-span-10 pb-24 md:pb-8">
+            <header class="md:hidden flex items-center justify-center p-4 bg-white border-b-2 border-slate-200 sticky top-0 z-10 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-700">Ajustes</h2>
+            </header>
+
+            <div class="p-4 md:p-0 max-w-2xl mx-auto space-y-8">
+                <h3 class="text-2xl font-bold text-slate-700 hidden md:block">Ajustes de Perfil</h3>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 px-2">Cuenta</h3>
+                    <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-sm overflow-hidden">
+                        <div class="p-5 flex items-center gap-4 border-b-2 border-slate-100">
+                            <div id="userAvatar" class="w-16 h-16 bg-brand-light/30 rounded-full flex items-center justify-center text-brand-blue text-2xl font-bold transition-all">
+                                JO <!-- Initials -->
+                            </div>
+                            <div>
+                                <h4 id="userName" class="font-bold text-slate-700 text-lg">Josué Obando</h4>
+                                <p id="userTitle" class="text-slate-500 text-sm font-medium">Estudiante Estelar</p>
+                            </div>
+                        </div>
+                        <button id="editProfileBtn" class="w-full text-left p-5 text-brand-blue font-bold hover:bg-slate-50 transition-colors flex items-center justify-between">
+                            <span>Editar Perfil</span>
+                            <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 px-2">Preferencias</h3>
+                    <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-sm overflow-hidden">
+                        
+                        <!-- Notifications -->
+                        <div class="p-5 flex justify-between items-center border-b-2 border-slate-100">
+                            <div>
+                                <span class="font-bold text-slate-700 block">Notificaciones</span>
+                                <span class="text-sm text-slate-400 font-medium">Recordatorios diarios</span>
+                            </div>
+                            <label for="notificationsToggle" class="relative flex items-center cursor-pointer">
+                                <input type="checkbox" id="notificationsToggle" class="sr-only peer">
+                                <div class="pointer-events-none w-14 h-8 bg-slate-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all shadow-inner"></div>
+                            </label>
+                        </div>
+                        
+                        <!-- Theme (placeholder visual) -->
+                        <div class="p-5 flex justify-between items-center border-b-2 border-slate-100 opacity-60">
+                            <div>
+                                <span class="font-bold text-slate-700 block flex items-center gap-2">
+                                    Tema Oscuro
+                                    <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide">Próximamente</span>
+                                </span>
+                                <span class="text-sm text-slate-400 font-medium">Protege tus ojos</span>
+                            </div>
+                            <label class="relative flex items-center cursor-not-allowed">
+                                <input type="checkbox" class="sr-only peer" disabled>
+                                <div class="w-14 h-8 bg-slate-200 rounded-full opacity-50 shadow-inner"></div>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 px-2">Datos y Privacidad</h3>
+                    <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-sm overflow-hidden">
+                        <button id="resetDataBtn" class="w-full text-left p-5 text-red-500 font-bold hover:bg-red-50 transition-colors flex items-center justify-between">
+                            Borrar todo mi progreso
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center pt-4">
+                    <p class="text-slate-400 font-medium">Daily Routine v2.0</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 w-full bg-white border-t-2 border-slate-200 flex justify-around p-3 pb-safe z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <a href="index.html" class="flex flex-col items-center text-slate-400 hover:text-brand-blue font-bold transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+            <span class="text-xs">Inicio</span>
+        </a>
+        <a href="rutina.html" class="flex flex-col items-center text-slate-400 hover:text-brand-blue font-bold transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+            <span class="text-xs">Stats</span>
+        </a>
+        <a href="ajustes.html" class="flex flex-col items-center text-brand-blue font-bold transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+            <span class="text-xs">Ajustes</span>
+        </a>
+    </nav>
+    
+    <script type="module">
+        import { resetState } from './js/store.js';
+        
+        function calculateInitials(name) {
+            const parts = name.trim().split(/\s+/).filter(Boolean);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return (name.trim().substring(0, 2) || "JO").toUpperCase();
+        }
+
+        function loadUserProfile() {
+            const savedProfile = localStorage.getItem("dailyRoutine_userProfile");
+            if (savedProfile) {
+                try {
+                    const profile = JSON.parse(savedProfile);
+                    if (profile.name) {
+                        document.getElementById("userName").textContent = profile.name;
+                        document.getElementById("userAvatar").textContent = calculateInitials(profile.name);
+                    }
+                    if (profile.title) {
+                        document.getElementById("userTitle").textContent = profile.title;
+                    }
+                } catch (e) {
+                    console.error("Error al cargar perfil:", e);
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Cargar perfil guardado
+            loadUserProfile();
+
+            // Botón Editar Perfil
+            const editBtn = document.getElementById("editProfileBtn");
+            if (editBtn) {
+                editBtn.addEventListener("click", () => {
+                    const currentName = document.getElementById("userName").textContent.trim();
+                    const currentTitle = document.getElementById("userTitle").textContent.trim();
+                    
+                    const newName = prompt("Ingresa tu nombre:", currentName);
+                    if (newName === null) return;
+                    
+                    const newTitle = prompt("Ingresa tu título o estado (ej. Estudiante Estelar):", currentTitle);
+                    if (newTitle === null) return;
+
+                    const finalName = newName.trim() || currentName;
+                    const finalTitle = newTitle.trim() || currentTitle;
+
+                    try {
+                        localStorage.setItem("dailyRoutine_userProfile", JSON.stringify({
+                            name: finalName,
+                            title: finalTitle
+                        }));
+                    } catch (e) {
+                        console.error("No se pudo guardar el perfil:", e);
+                    }
+
+                    loadUserProfile();
+                });
+            }
+
+            // Notificaciones toggle
+            const toggle = document.getElementById("notificationsToggle");
+            const saved = localStorage.getItem("dailyRoutine_notifications");
+            if (saved !== null) toggle.checked = saved === "true";
+            toggle.addEventListener("change", () => {
+                try {
+                    localStorage.setItem("dailyRoutine_notifications", toggle.checked);
+                } catch(e) {
+                    console.error("No se pudo guardar la preferencia:", e);
+                }
+                if (toggle.checked && 'Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+            });
+            
+            // Botón Reiniciar Progreso
+            document.getElementById("resetDataBtn").addEventListener("click", () => {
+                if(confirm("¿Estás 100% seguro? Esto borrará tu progreso, rachas e historial y no se puede deshacer.")) {
+                    resetState();
+                    alert("Progreso reiniciado correctamente.");
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    </script>
+
+    <div id="fileProtocolWarning" style="display: none; position: fixed; top: 0; left: 0; right: 0; background: #ef4444; color: white; padding: 1rem; text-align: center; z-index: 9999; font-weight: bold;">
+        ⚠️ Atención: Estás abriendo el archivo directamente. Para que la aplicación funcione, debes abrirla a través del servidor local que hemos creado (http://localhost:3000) o Live Server.
+    </div>
+    <script>
+        if (window.location.protocol === 'file:') {
+            document.getElementById('fileProtocolWarning').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

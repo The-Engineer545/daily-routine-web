@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organiza tus hábitos diarios, mantén tu racha y evoluciona tu mascota virtual.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <title>Daily Routine - Estadísticas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { brand: { blue: '#1CB0F6', dark: '#1899D6', light: '#84D8FF' } }, fontFamily: { sans: ['Lexend', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Lexend', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    
+    <div class="max-w-6xl mx-auto md:px-6 md:py-8 md:grid md:grid-cols-12 gap-8 h-full">
+        <!-- Sidebar Navigation (Hidden on mobile) -->
+        <aside class="hidden md:flex flex-col col-span-2 sticky top-8 h-fit pt-2">
+            <h1 class="text-2xl font-black text-brand-blue mb-8 leading-tight">Daily<br>Routine</h1>
+            <nav class="flex flex-col gap-2">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                    Inicio
+                </a>
+                <a href="rutina.html" class="flex items-center gap-3 px-4 py-3 bg-brand-blue/10 text-brand-blue font-bold rounded-2xl border-2 border-brand-blue text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                    Estadísticas
+                </a>
+                <a href="ajustes.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+                    Ajustes
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-span-12 md:col-span-10 pb-24 md:pb-8">
+            <header class="md:hidden flex items-center justify-center p-4 bg-white border-b-2 border-slate-200 sticky top-0 z-10 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-700">Estadísticas</h2>
+            </header>
+
+            <div class="p-4 md:p-0 max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold text-slate-700 mb-6 hidden md:block">Estadísticas</h3>
+                
+                <h3 class="text-lg font-bold text-slate-700 mb-4 px-2">Rachas</h3>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm text-center">
+                        <p class="text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">Racha Actual</p>
+                        <p class="text-4xl font-black text-orange-500" id="statCurrentStreak">0 <span class="text-2xl">🔥</span></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm text-center">
+                        <p class="text-sm font-bold text-slate-400 mb-2 uppercase tracking-wider">Mejor Racha</p>
+                        <p class="text-4xl font-black text-brand-blue" id="statLongestStreak">0 <span class="text-2xl">🏅</span></p>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-700 mb-4 px-2">Actividad de los últimos 7 días</h3>
+                <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm">
+                    <div id="chartContainer" class="grid grid-cols-7 gap-2 h-40 items-end justify-items-center mb-4">
+                        <!-- Rendered by JS -->
+                    </div>
+                    <div id="chartLabels" class="grid grid-cols-7 gap-2 text-center text-sm font-bold text-slate-400">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 w-full bg-white border-t-2 border-slate-200 flex justify-around p-3 pb-safe z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <a href="index.html" class="flex flex-col items-center text-slate-400 hover:text-brand-blue font-bold transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+            <span class="text-xs">Inicio</span>
+        </a>
+        <a href="rutina.html" class="flex flex-col items-center text-brand-blue font-bold">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+            <span class="text-xs">Stats</span>
+        </a>
+        <a href="ajustes.html" class="flex flex-col items-center text-slate-400 hover:text-brand-blue font-bold transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+            <span class="text-xs">Ajustes</span>
+        </a>
+    </nav>
+    <script type="module">
+        import { loadState, state, getWeeklyHistory } from './js/store.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            document.getElementById('statCurrentStreak').innerHTML = `${state.currentStreak} <span class="text-2xl">🔥</span>`;
+            document.getElementById('statLongestStreak').innerHTML = `${state.longestStreak} <span class="text-2xl">🏅</span>`;
+            
+            const history = getWeeklyHistory(); // array of 7 items
+            const chartContainer = document.getElementById('chartContainer');
+            const chartLabels = document.getElementById('chartLabels');
+            
+            history.forEach(day => {
+                // If completed, height 100% and blue. Else, height 20% and slate-200.
+                const hClass = day.completed ? 'h-full bg-brand-blue hover:bg-brand-dark' : 'h-[20%] bg-slate-200';
+                
+                const bar = document.createElement('div');
+                bar.className = `w-full ${hClass} rounded-t-lg transition-all duration-500`;
+                bar.title = day.date + (day.completed ? ': Completado' : ': No completado');
+                chartContainer.appendChild(bar);
+                
+                const lbl = document.createElement('span');
+                lbl.textContent = day.dayName;
+                if(day.date === new Date().toISOString().split('T')[0]) {
+                    lbl.classList.add('text-brand-blue', 'font-black');
+                }
+                chartLabels.appendChild(lbl);
+            });
+        });
+    </script>
+
+    <div id="fileProtocolWarning" style="display: none; position: fixed; top: 0; left: 0; right: 0; background: #ef4444; color: white; padding: 1rem; text-align: center; z-index: 9999; font-weight: bold;">
+        ⚠️ Atención: Estás abriendo el archivo directamente. Para que la aplicación funcione, debes abrirla a través del servidor local que hemos creado (http://localhost:3000) o Live Server.
+    </div>
+    <script>
+        if (window.location.protocol === 'file:') {
+            document.getElementById('fileProtocolWarning').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

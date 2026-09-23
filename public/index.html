@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organiza tus hábitos diarios, mantén tu racha y evoluciona tu mascota virtual.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Daily Routine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: { blue: '#1CB0F6', dark: '#1899D6', light: '#84D8FF' } },
+                    fontFamily: { sans: ['Lexend', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+        }
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        body { font-family: 'Lexend', sans-serif; background: #f1f5f9; }
+
+        /* ── Pet scene wrapper ────────────────────────── */
+        #petSceneContainer {
+            position: relative;          /* anchor for overlays */
+            width: 100%;
+            height: 320px;              /* explicit height so canvas has room */
+            border-radius: 1.5rem;
+            overflow: hidden;
+            /* Dark fallback while Three.js loads */
+            background: #060e24;
+            box-shadow: 0 25px 60px -15px rgba(28,176,246,0.25),
+                        0 0 0 1px rgba(28,176,246,0.12);
+        }
+
+        /* Three.js canvas fills the container behind overlays */
+        #petSceneContainer canvas {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 0;
+        }
+
+        /* All glass overlays sit above the canvas */
+        .scene-overlay { position: absolute; z-index: 10; }
+
+        .glass {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 999px;
+        }
+
+        .glass-card {
+            background: rgba(6,14,36,0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(28,176,246,0.2);
+            border-radius: 1rem;
+        }
+
+        /* Duolingo-style depth button */
+        .btn-primary {
+            background: #1CB0F6;
+            border-bottom: 4px solid #1080b8;
+            color: white;
+            font-weight: 700;
+            border-radius: 1rem;
+            transition: all 0.1s;
+        }
+        .btn-primary:active { border-bottom-width: 0; transform: translateY(3px); }
+
+        .btn-success {
+            background: #58cc02;
+            border-bottom: 4px solid #3a8a00;
+            color: white;
+            font-weight: 700;
+            border-radius: 1rem;
+            transition: all 0.1s;
+        }
+        .btn-success:active { border-bottom-width: 0; transform: translateY(3px); }
+
+        /* Task card */
+        .task-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 1.25rem;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .task-card:hover { border-color: #1CB0F6; box-shadow: 0 4px 12px rgba(28,176,246,0.12); }
+        .task-card.completed { opacity: 0.65; background: #f0f9ff; border-color: #bae6fd; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="max-w-6xl mx-auto md:px-6 md:py-8 md:grid md:grid-cols-12 gap-8">
+
+        <!-- ── Sidebar (desktop) ─────────────────── -->
+        <aside class="hidden md:flex flex-col col-span-2 sticky top-8 h-fit pt-2">
+            <h1 class="text-2xl font-black text-brand-blue mb-8 leading-tight">Daily<br>Routine</h1>
+            <nav class="flex flex-col gap-2">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 bg-brand-blue/10 text-brand-blue font-bold rounded-2xl border-2 border-brand-blue text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                    Inicio
+                </a>
+                <a href="rutina.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                    Estadísticas
+                </a>
+                <a href="ajustes.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 font-bold hover:bg-white hover:text-slate-700 rounded-2xl transition-all text-sm">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+                    Ajustes
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ── Main content ──────────────────────── -->
+        <main class="col-span-12 md:col-span-10 flex flex-col lg:flex-row gap-6 pb-28 md:pb-10">
+
+            <!-- Mobile header -->
+            <header class="md:hidden flex items-center justify-center px-4 py-4 bg-white border-b border-slate-200 sticky top-0 z-20">
+                <h2 class="text-lg font-bold text-slate-700">Daily Routine</h2>
+            </header>
+
+            <!-- ── Column A: Tasks ─────────────────── -->
+            <section class="flex-1 px-4 pt-5 md:px-0 md:pt-0 flex flex-col gap-4">
+
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-slate-800 hidden md:block">Tus Tareas</h2>
+                </div>
+
+                <!-- Add task button -->
+                <button id="addTaskBtn"
+                    class="w-full flex items-center justify-center gap-2 py-4 bg-white border-2 border-dashed border-slate-300 rounded-2xl text-slate-400 font-semibold hover:border-brand-blue hover:text-brand-blue transition-all text-[15px]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Agregar tarea
+                </button>
+
+                <!-- Add task form -->
+                <div id="addTaskForm" class="hidden flex gap-3">
+                    <input id="newTaskInput" type="text" placeholder="¿Qué quieres lograr hoy?" maxlength="60"
+                           class="flex-1 bg-white border-2 border-slate-200 rounded-2xl px-4 py-3 font-medium text-[15px] focus:outline-none focus:border-brand-blue focus:ring-4 focus:ring-blue-100 transition-all">
+                    <button id="saveTaskBtn"   class="btn-primary px-5 py-3 text-lg">✓</button>
+                    <button id="cancelTaskBtn" class="bg-slate-200 text-slate-500 font-bold px-5 py-3 rounded-2xl border-b-4 border-slate-300 active:border-b-0 active:translate-y-1 transition-all">✕</button>
+                </div>
+
+                <!-- Tasks list -->
+                <div id="tasksList" class="flex flex-col gap-3"></div>
+
+                <div id="emptyState" class="hidden text-center py-14 bg-white rounded-3xl border-2 border-dashed border-slate-200">
+                    <p class="text-5xl mb-3">📋</p>
+                    <p class="font-bold text-slate-600 text-lg">Sin tareas aún</p>
+                    <p class="text-slate-400 text-sm mt-1">Añade una tarea para empezar tu día</p>
+                </div>
+
+                <!-- Complete day button -->
+                <div id="completeDayContainer" class="hidden mt-2">
+                    <button id="completeDayBtn" class="btn-success w-full text-xl py-5">
+                        ¡Completar Día! 🎉
+                    </button>
+                </div>
+
+                <!-- Day completed message -->
+                <div id="dayCompletedMsg" class="hidden bg-green-50 border-2 border-green-300 text-green-700 p-5 rounded-2xl text-center font-bold text-lg mt-2">
+                    ¡Excelente trabajo! Día completado. 🔥
+                </div>
+            </section>
+
+            <!-- ── Column B: 3D Pet Scene ──────────── -->
+            <aside class="lg:w-[370px] px-4 md:px-0 flex flex-col gap-4">
+
+                <!-- Three.js container — overlays are CHILDREN of this div -->
+                <div id="petSceneContainer">
+
+                    <!-- Streak badge: top-right -->
+                    <div class="scene-overlay top-3 right-3 glass px-4 py-2 flex items-center gap-2 text-white font-bold text-sm">
+                        🔥 <span id="currentStreak">0</span>
+                    </div>
+
+                    <!-- Best streak badge: top-left -->
+                    <div class="scene-overlay top-3 left-3 glass px-4 py-2 flex items-center gap-2 font-bold text-sm" style="color:rgba(255,255,255,0.6)">
+                        🏅 <span id="longestStreak">0</span>
+                    </div>
+
+                    <!-- Center Pet Emoji (always visible and animated) -->
+                    <div id="petEmojiFallback" class="absolute inset-0 flex items-center justify-center pointer-events-none z-[1] pb-10">
+                        <div id="petEmojiText" class="text-7xl select-none filter drop-shadow-[0_10px_25px_rgba(28,176,246,0.5)] transform hover:scale-110 transition-transform">🥚</div>
+                    </div>
+
+                    <!-- Progress bar: near bottom -->
+                    <div class="scene-overlay bottom-[68px] left-4 right-4">
+                        <div class="w-full h-2 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.1)">
+                            <div id="progressFill" class="h-full rounded-full transition-all duration-700"
+                                 style="width:0%; background:linear-gradient(90deg,#1CB0F6,#84D8FF)"></div>
+                        </div>
+                        <p id="progressText" class="text-center text-[10px] font-semibold mt-1" style="color:rgba(255,255,255,0.4)">
+                            0/20 días para evolución
+                        </p>
+                    </div>
+
+                    <!-- Pet info: pinned to bottom edge -->
+                    <div class="scene-overlay bottom-0 left-0 right-0 glass-card rounded-none" style="border-radius: 0 0 1.5rem 1.5rem; padding: 8px 16px; text-align:center;">
+                        <h3 id="petName" class="text-white font-bold text-[15px] leading-tight">Bebé</h3>
+                        <p id="petDescription" class="text-[11px] font-medium leading-tight" style="color:rgba(255,255,255,0.5)">¡Acabo de nacer!</p>
+                    </div>
+                </div>
+
+                <!-- Evolution stages card -->
+                <div class="bg-white rounded-3xl p-5 border-2 border-slate-200 text-center">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Línea de Evolución</p>
+                    <div id="petStages" class="flex justify-between items-end px-2"></div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- ── Mobile bottom nav ──────────────────────── -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-around py-2 z-50">
+        <a href="index.html" class="flex flex-col items-center gap-0.5 text-brand-blue font-bold py-1">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+            <span class="text-[10px]">Inicio</span>
+        </a>
+        <a href="rutina.html" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-blue transition-colors font-bold py-1">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+            <span class="text-[10px]">Stats</span>
+        </a>
+        <a href="ajustes.html" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-blue transition-colors font-bold py-1">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+            <span class="text-[10px]">Ajustes</span>
+        </a>
+    </nav>
+
+    <script type="module" src="js/main.js"></script>
+
+    <div id="fileProtocolWarning" style="display: none; position: fixed; top: 0; left: 0; right: 0; background: #ef4444; color: white; padding: 1rem; text-align: center; z-index: 9999; font-weight: bold;">
+        ⚠️ Atención: Estás abriendo el archivo directamente. Para que la aplicación funcione, debes abrirla a través del servidor local que hemos creado (http://localhost:3000) o Live Server.
+    </div>
+    <script>
+        if (window.location.protocol === 'file:') {
+            document.getElementById('fileProtocolWarning').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
