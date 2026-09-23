@@ -1,5 +1,41 @@
+# Dependencias
 node_modules/
-.DS_Store
-Thumbs.db
-*.log
+jspm_packages/
+
+# Entornos y Secretos (Seguridad)
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.cert
+
+# Logs y Debug
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+firebase-debug.log*
+firebase-debug.*.log*
+
+# Firebase (Archivos de caché temporal)
+.firebase/
+
+# Archivos de Sistema Operativo (Windows/Mac)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs y Editores de código
+.idea/
+.vscode/
+*.swp
+*.swo
