@@ -34,3 +34,11 @@ desktop.ini
 .vscode/
 *.swp
 *.swo
+
+# Firebase (Caché local y logs)
+.firebase/
+firebase-debug.log*
+.firebase/
+firebase-debug.log*
+.firebase/
+firebase-debug.log*
