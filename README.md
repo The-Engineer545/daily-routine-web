@@ -85,5 +85,4 @@ Daily Routine Web/
 
 ## 👤 Desarrollador
 
-**Josue Obando R**  
 - GitHub: [@The-Engineer545](https://github.com/The-Engineer545)
